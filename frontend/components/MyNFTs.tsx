@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useReadContract, useWaitForTransactionReceipt } from "wagmi";
+import { useWriteContractWithGas } from "@/hooks/useWriteContractWithGas";
 import { parseEther, formatEther, type Abi } from "viem";
 import { useMyNFTs } from "@/hooks/useMyNFTs";
 import { useMyListingStatus } from "@/hooks/useMyListingStatus";
@@ -39,10 +40,10 @@ export function MyNFTs() {
 
   const [prices, setPrices] = useState<Record<string, string>>({});
 
-  const approve = useWriteContract();
+  const approve = useWriteContractWithGas();
   const approveReceipt = useWaitForTransactionReceipt({ hash: approve.data });
 
-  const action = useWriteContract();
+  const action = useWriteContractWithGas();
   const actionReceipt = useWaitForTransactionReceipt({ hash: action.data });
 
   useEffect(() => {

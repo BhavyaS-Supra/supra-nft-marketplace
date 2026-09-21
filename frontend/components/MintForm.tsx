@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useReadContract, useWaitForTransactionReceipt } from "wagmi";
+import { useWriteContractWithGas } from "@/hooks/useWriteContractWithGas";
 import type { Abi } from "viem";
 import { CONTRACTS_CONFIGURED, NFT_ADDRESS } from "@/lib/contracts";
 import nftAbiJson from "@/lib/abi/SupraNFT.json";
@@ -28,7 +29,7 @@ export function MintForm() {
   });
   const maxSupply = 10_000;
 
-  const mint = useWriteContract();
+  const mint = useWriteContractWithGas();
   const mintReceipt = useWaitForTransactionReceipt({ hash: mint.data });
 
   useEffect(() => {

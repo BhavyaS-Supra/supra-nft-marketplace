@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt } from "wagmi";
+import { useWriteContractWithGas } from "@/hooks/useWriteContractWithGas";
 import { formatEther, type Abi } from "viem";
 import { useMarketplaceListings } from "@/hooks/useMarketplaceListings";
 import { useNFTMetadata } from "@/hooks/useNFTMetadata";
@@ -24,7 +25,7 @@ export function Marketplace() {
   const { listings, isLoading, refetch } = useMarketplaceListings();
   const { data: metadata } = useNFTMetadata(listings.map((l) => l.tokenURI));
 
-  const buy = useWriteContract();
+  const buy = useWriteContractWithGas();
   const buyReceipt = useWaitForTransactionReceipt({ hash: buy.data });
 
   useEffect(() => {
